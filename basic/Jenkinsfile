@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Replace with your repository URL
-                git 'https://github.com/your-repo/your-project.git'
+                git 'hhttps://github.com/sdr20/Jenkinsfile.git'
             }
         }
 
