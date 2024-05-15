@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Replace with your repository URL
+                git 'https://github.com/your-repo/your-project.git'
+            }
+        }
+
+        stage('Validate HTML') {
+            steps {
+                // Assuming you have a Docker container for HTML validation
+                docker.image('htmlhint/htmlhint').inside {
+                    sh 'htmlhint index.html'
+                }
+            }
+        }
+
+        stage('Validate CSS') {
+            steps {
+                // Assuming you have a Docker container for CSS validation
+                docker.image('csslint/csslint').inside {
+                    sh 'csslint style.css'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy your HTML and CSS files to a web server
+                // Example: copying files to an Apache server's directory
+                sh 'scp -r * user@your-webserver:/var/www/html/your-project'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
